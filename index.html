@@ -1,34 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>QR for single link (dynamic)</title>
-</head>
-<body>
-  <h3>QR for my site</h3>
-
-  <input id="url" type="url" value="https://your-website.com" style="width:320px" />
-  <button id="gen">Generate QR</button>
-  <div>
-    <img id="qr" src="" alt="QR code" width="200" height="200">
-  </div>
-
-  <script>
-    const qrImg = document.getElementById('qr');
-    const urlInput = document.getElementById('url');
-
-    function updateQR(link) {
-      const encoded = encodeURIComponent(link);
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encoded}`;
-      qrImg.alt = `QR code for ${link}`;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator - SEC</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #d43f8d, #ff6a3d, #ff9833);
+      background-size: cover;
     }
 
-    // initialize
-    updateQR(urlInput.value);
+    header {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 40px;
+    }
 
-    document.getElementById('gen').addEventListener('click', () => {
-      updateQR(urlInput.value.trim() || 'https://your-website.com');
-    });
+    header img {
+      width: 70%;
+      max-height: 150px;
+      margin-top: 30px;
+      border-radius: 0 0 25px 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 30px;
+      text-align: center;
+      width: 340px;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      transition: background 0.3s;
+      margin: 5px;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    #qrcode {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    footer {
+      margin-top: 40px;
+      color: red;
+      font-weight: bold;
+      font-size: 16px;
+      bottom: 0;
+      position: fixed;
+      width: 100%;
+      left: 0;
+      background-color: yellow;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="www.saveetha.ac.in">
+  </header>
+
+  <div class="container">
+    <h2>QR Code Generator</h2>
+    <input type="text" id="link" placeholder="Enter website link">
+    <div>
+      <button onclick="generateQR()">Generate QR</button>
+      <button onclick="downloadQR()">Download QR</button>
+    </div>
+    <div id="qrcode"></div>
+  </div>
+
+  <footer>
+    Designed & Developed by Dr.R.Selvakumar &copy; 2025
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script>
+    let qrcode;
+
+    function generateQR() {
+      const link = document.getElementById("link").value;
+      const qrcodeContainer = document.getElementById("qrcode");
+      qrcodeContainer.innerHTML = "";
+      qrcode = new QRCode(qrcodeContainer, {
+        text: link,
+        width: 150,
+        height: 150
+      });
+    }
+
+    function downloadQR() {
+      if (!qrcode) {
+        alert("Please generate a QR code first!");
+        return;
+      }
+      const img = document.querySelector("#qrcode img");
+      if (img) {
+        const a = document.createElement("a");
+        a.href = img.src;
+        a.download = "QRCode.png";
+        a.click();
+      } else {
+        alert("QR code image not found!");
+      }
+    }
   </script>
 </body>
 </html>
