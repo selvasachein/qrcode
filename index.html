@@ -21,7 +21,7 @@
     header {
       width: 100%;
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
     }
 
     header img {
@@ -31,6 +31,18 @@
       border-radius: 0 0 25px 25px;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     }
+
+    h1 {
+      font-size: 22px;
+      margin-top: 15px;
+      letter-spacing: 1px;
+    }
+
+    h1 span:nth-child(1) { color: red; }
+    h1 span:nth-child(2) { color: orange; }
+    h1 span:nth-child(3) { color: yellow; }
+    h1 span:nth-child(4) { color: green; }
+    h1 span:nth-child(5) { color: blue; }
 
     .container {
       background: rgba(255, 255, 255, 0.15);
@@ -78,17 +90,6 @@
       align-items: center;
     }
 
-    #views {
-      margin-top: 20px;
-      font-weight: bold;
-      color: #fff;
-      font-size: 18px;
-      background: rgba(0, 0, 0, 0.25);
-      padding: 8px 20px;
-      border-radius: 12px;
-      text-align: center;
-    }
-
     footer {
       margin-top: 10px;
       color: red;
@@ -108,6 +109,13 @@
 
   <header>
     <img src="logo.png" alt="www.saveetha.ac.in">
+    <h1>
+      <span>S</span>aveetha 
+      <span>C</span>entre 
+      <span>O</span>f 
+      <span>F</span>uture 
+      <span>T</span>echnologies
+    </h1>
   </header>
 
   <div class="container">
@@ -119,9 +127,6 @@
     </div>
     <div id="qrcode"></div>
   </div>
-
-  <!-- Total Views displayed above footer -->
-  <div id="views">Total Views: 0</div>
 
   <footer>
     Designed & Developed by Dr.R.Selvakumar &copy; 2025
@@ -157,15 +162,6 @@
         alert("QR code image not found!");
       }
     }
-
-    function updateViews() {
-      let views = localStorage.getItem("qr_total_views");
-      views = views ? parseInt(views) + 1 : 1;
-      localStorage.setItem("qr_total_views", views);
-      document.getElementById("views").innerText = "Total Views: " + views;
-    }
-
-    window.onload = updateViews;
   </script>
 </body>
 </html>
