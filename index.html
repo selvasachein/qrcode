@@ -145,7 +145,6 @@
       const qrcodeContainer = document.getElementById("qrcode");
       qrcodeContainer.innerHTML = "";
 
-      // QR Code API call (no external JS)
       qrImageURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}&size=200x200`;
 
       const img = document.createElement("img");
@@ -157,16 +156,27 @@
       qrcodeContainer.appendChild(img);
     }
 
-    function downloadQR() {
+    async function downloadQR() {
       if (!qrImageURL) {
         alert("Please generate a QR code first!");
         return;
       }
 
-      const a = document.createElement("a");
-      a.href = qrImageURL;
-      a.download = "QRCode.png";
-      a.click();
+      try {
+        const response = await fetch(qrImageURL);
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "QRCode.png";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        alert("Failed to download QR code. Please try again.");
+      }
     }
   </script>
 </body>
