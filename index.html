@@ -132,35 +132,41 @@
     Designed & Developed by Dr.R.Selvakumar &copy; 2025
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
   <script>
-    let qrcode;
+    let qrImageURL = "";
 
     function generateQR() {
-      const link = document.getElementById("link").value;
+      const link = document.getElementById("link").value.trim();
+      if (link === "") {
+        alert("Please enter a website link!");
+        return;
+      }
+
       const qrcodeContainer = document.getElementById("qrcode");
       qrcodeContainer.innerHTML = "";
-      qrcode = new QRCode(qrcodeContainer, {
-        text: link,
-        width: 150,
-        height: 150
-      });
+
+      // QR Code API call (no external JS)
+      qrImageURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}&size=200x200`;
+
+      const img = document.createElement("img");
+      img.src = qrImageURL;
+      img.alt = "Generated QR Code";
+      img.width = 200;
+      img.height = 200;
+
+      qrcodeContainer.appendChild(img);
     }
 
     function downloadQR() {
-      if (!qrcode) {
+      if (!qrImageURL) {
         alert("Please generate a QR code first!");
         return;
       }
-      const img = document.querySelector("#qrcode img");
-      if (img) {
-        const a = document.createElement("a");
-        a.href = img.src;
-        a.download = "QRCode.png";
-        a.click();
-      } else {
-        alert("QR code image not found!");
-      }
+
+      const a = document.createElement("a");
+      a.href = qrImageURL;
+      a.download = "QRCode.png";
+      a.click();
     }
   </script>
 </body>
